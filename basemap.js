@@ -31,16 +31,3 @@ g.selectAll("path")
           var coords = d3.mouse(this);
           console.log(coords);
       });
-
-
-var lineGenerator = d3.line().curve(d3.curveCardinal);
-var points = [[221,138],[477,311],[941,651]];
-var pathData = lineGenerator(points);
-var g2 = map_svg.append("g");
-var path = g2.append("path").data([points]).attr("d", d3.line());
-
-g2.selectAll('path')
-  .data(points)
-  .attr('d', pathData)
-  .attr("stroke", "blue")
-  .attr("fill","transparent");
