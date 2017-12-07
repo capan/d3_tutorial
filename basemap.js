@@ -44,16 +44,3 @@ g2.selectAll('path')
   .attr('d', pathData)
   .attr("stroke", "blue")
   .attr("fill","transparent");
-
-var tr_bl = true;
-
-function transition() {
-      if (tr_bl){
-      circle.transition()
-      .duration(10000)
-      .attrTween("transform", translateAlong(path.node()));
-      } 
-      else {
-        circle.transition();
-      }
-}
