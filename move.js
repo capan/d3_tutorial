@@ -27,17 +27,12 @@ d3.select('svg1')
   .attr('r', 10);
 
   var tr_bl = true;
-
-
   
         var circle = map_svg.append("circle")
               .attr("r", 10)
               .attr("transform", "translate(" + points[0] + ")")
               .style("stroke", "gray")
               .style("fill","red");
-
-
-    transition();
 
       function transition() {
       if (tr_bl){

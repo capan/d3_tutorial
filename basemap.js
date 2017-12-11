@@ -17,7 +17,12 @@ g.selectAll("path")
    .append("path")
    .attr("d",geoPath)
    .attr("stroke-width", "1")
-   .attr("stroke", "white");
+   .attr("stroke", "white")
+   .on("mouseover",handleMouseOver)
+   .on("mouseout",handleMouseOut);
+
+
+
 
   var g1 = map_svg.append("g");
   
@@ -31,3 +36,28 @@ g.selectAll("path")
           var coords = d3.mouse(this);
           console.log(coords);
       });
+
+
+
+
+    function handleMouseOver(d, i) {  // Add interactivity
+
+            // Use D3 to select element, change color and size
+            d3.select(this).attr(
+              "fill", "orange"
+            );
+
+            // Specify where to put label of text
+             map_svg.append("text").attr({
+             id: "t" +  i,  // Create an id for text so we can select it later for removing on mouseout
+                x: function() { return xScale(d.x) - 30; },
+                y: function() { return yScale(d.y) - 15; }
+            })
+            .text(function() {
+              return [d.is_in];  // Value of the text
+            });
+          }
+
+          function handleMouseOut(d,i){
+            d3.select(this).attr("fill","black")
+          }
