@@ -21,9 +21,6 @@ g.selectAll("path")
    .on("mouseover",handleMouseOver)
    .on("mouseout",handleMouseOut);
 
-
-
-
   var g1 = map_svg.append("g");
   
   g1.selectAll("path")
@@ -38,7 +35,12 @@ g.selectAll("path")
       });
 
 
-
+   var label = map_svg
+  .append("div")
+  .style("position", "absolute")
+  .style("z-index", "10")
+  .style("visibility", "hidden")
+  .text("a simple tooltip");
 
     function handleMouseOver(d, i) {  // Add interactivity
 
@@ -47,15 +49,10 @@ g.selectAll("path")
               "fill", "orange"
             );
 
-            // Specify where to put label of text
-             map_svg.append("text").attr({
-             id: "t" +  i,  // Create an id for text so we can select it later for removing on mouseout
-                x: function() { return xScale(d.x) - 30; },
-                y: function() { return yScale(d.y) - 15; }
-            })
-            .text(function() {
-              return [d.is_in];  // Value of the text
-            });
+            transition();
+            console.log(d.properties.name);
+
+            label.style("visibility", "visible");
           }
 
           function handleMouseOut(d,i){

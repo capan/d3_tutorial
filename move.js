@@ -34,6 +34,9 @@ d3.select('svg1')
               .style("stroke", "gray")
               .style("fill","red");
 
+
+              
+
       function transition() {
       if (tr_bl){
       circle.transition()
