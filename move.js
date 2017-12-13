@@ -9,7 +9,7 @@ var path = g2.append("path").data([points]).attr("d", d3.line());
 g2.selectAll('path')
   .data(points)
   .attr('d', pathData)
-  .attr("stroke", "blue")
+  .attr("stroke", "transparent")
   .attr("fill","transparent");
 
 // Also draw points for reference
@@ -33,9 +33,6 @@ d3.select('svg1')
               .attr("transform", "translate(" + points[0] + ")")
               .style("stroke", "gray")
               .style("fill","red");
-
-
-              
 
       function transition() {
       if (tr_bl){

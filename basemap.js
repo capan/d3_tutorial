@@ -19,7 +19,8 @@ g.selectAll("path")
    .attr("stroke-width", "1")
    .attr("stroke", "white")
    .on("mouseover",handleMouseOver)
-   .on("mouseout",handleMouseOut);
+   .on("mouseout",handleMouseOut)
+   .on("click",handleClick);
 
   var g1 = map_svg.append("g");
   
@@ -35,26 +36,31 @@ g.selectAll("path")
       });
 
 
-   var label = map_svg
-  .append("div")
-  .style("position", "absolute")
-  .style("z-index", "10")
-  .style("visibility", "hidden")
-  .text("a simple tooltip");
+    function handleMouseOver(d, i) {  
 
-    function handleMouseOver(d, i) {  // Add interactivity
-
-            // Use D3 to select element, change color and size
-            d3.select(this).attr(
-              "fill", "orange"
+            d3.select(this).
+            attr(
+               "fill", "orange"
             );
+   
+            document.getElementById("il").innerHTML = d.properties.name;
 
             transition();
-            console.log(d.properties.name);
-
-            label.style("visibility", "visible");
           }
 
           function handleMouseOut(d,i){
             d3.select(this).attr("fill","black")
+          }
+
+          function handleClick(d,i){
+            d3.select(this)
+            .append("text")
+            .text(function(d){return d.properties.name})
+                    .style("text-anchor", "middle")
+                    .style("fill", "#555")
+                    .style("font-family", "Arial")
+                    .style("font-size", 12);
+
+                    console.log(d.properties.name);
+
           }
