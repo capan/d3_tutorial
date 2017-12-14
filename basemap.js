@@ -32,35 +32,33 @@ g.selectAll("path")
    .attr("d",geoPath)
    .on("click", function() {
           var coords = d3.mouse(this);
-          console.log(coords);
+          
       });
 
-
     function handleMouseOver(d, i) {  
-
+      var coords = d3.mouse(this);
             d3.select(this).
             attr(
                "fill", "orange"
             );
-   
-            document.getElementById("il").innerHTML = d.properties.name;
 
-            transition();
-          }
-
-          function handleMouseOut(d,i){
-            d3.select(this).attr("fill","black")
-          }
-
-          function handleClick(d,i){
             d3.select(this)
-            .append("text")
+            .append("svg:title")
             .text(function(d){return d.properties.name})
                     .style("text-anchor", "middle")
                     .style("fill", "#555")
                     .style("font-family", "Arial")
-                    .style("font-size", 12);
+                    .style("font-size", 50);
+              
+            }
 
-                    console.log(d.properties.name);
+          function handleMouseOut(d,i){
+            d3.select(this).attr("fill","black");
+            myTransition();
+          }
+
+          function handleClick(d,i){
+            var coords = d3.mouse(this);
+            document.getElementById("il").innerHTML = d.properties.name;
 
           }
