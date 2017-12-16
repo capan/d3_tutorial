@@ -5,26 +5,12 @@ var pathData = lineGenerator(points);
 var g2 = map_svg.append("g");
 
 var path = g2.append("path").data([points]).attr("d", d3.line());
-
+  
 g2.selectAll('path')
   .data(points)
   .attr('d', pathData)
   .attr("stroke", "transparent")
   .attr("fill","transparent");
-
-// Also draw points for reference
-d3.select('svg1')
-  .selectAll('circle')
-  .data(points)
-  .enter()
-  .append('circle')
-  .attr('cx', function(d) {
-    return d[0];
-  })
-  .attr('cy', function(d) {
-    return d[1];
-  })
-  .attr('r', 10);
 
   var tr_bl = true;
   
@@ -34,11 +20,14 @@ d3.select('svg1')
               .style("stroke", "gray")
               .style("fill","red");
 
+
       function myTransition() {
       if (tr_bl){
       circle.transition()
       .duration(10000)
       .attrTween("transform", translateAlong(path.node()));
+
+      
       } 
       else {
         circle.transition();

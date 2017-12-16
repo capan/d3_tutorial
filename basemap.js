@@ -4,6 +4,7 @@ var viewWidth = window.innerWidth;
 var geoMercator = d3.geoMercator().scale(5500)
   .center( [28.739557, 39.871648] )
   .translate([300,300]);
+  
 
 var map_svg = d3.select("body").append("svg").attr("width",viewWidth).attr("height",viewHeight);
 
@@ -35,26 +36,44 @@ g.selectAll("path")
           
       });
 
-    function handleMouseOver(d, i) {  
-      var coords = d3.mouse(this);
-            d3.select(this).
-            attr(
-               "fill", "orange"
-            );
+    function handleMouseOver(d, i) { 
+      
+      if(d.properties.name == "Tekirdağ"){
+        d3.select(this).transition().
+        style(
+           "fill", "red"
+        );
+        myTransition();
 
-            d3.select(this)
-            .append("svg:title")
-            .text(function(d){return d.properties.name})
-                    .style("text-anchor", "middle")
-                    .style("fill", "#555")
-                    .style("font-family", "Arial")
-                    .style("font-size", 50);
-              
+      } else if(d.properties.name == "Adana"){
+        
+        d3.select(this).transition().
+        style(
+           "fill", "red"
+        );
+        myTransition();
+      }
+      else {
+        var coords = d3.mouse(this);
+        d3.select(this).transition().
+        style(
+           "fill", "orange"
+        );
+      }
+
+      d3.select(this)
+      .append("svg:title")
+      .text(function(d){return d.properties.name})
+              .style("text-anchor", "middle")
+              .style("fill", "#555")
+              .style("font-family", "Arial")
+              .style("font-size", 50);
+        
             }
 
           function handleMouseOut(d,i){
-            d3.select(this).attr("fill","black");
-            myTransition();
+            d3.select(this).transition().style("fill","black");
+            
           }
 
           function handleClick(d,i){
