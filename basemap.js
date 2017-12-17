@@ -7,11 +7,10 @@ var geoMercator = d3.geoMercator().scale(5500)
   
 
 var map_svg = d3.select("body").append("svg").attr("width",viewWidth).attr("height",viewHeight);
-
-var g = map_svg.append("g");
-
 var geoPath = d3.geoPath().projection(geoMercator);
 
+//regions
+var g = map_svg.append("g");
 g.selectAll("path")
    .data(tr_geojson.features)
    .enter()
@@ -23,9 +22,9 @@ g.selectAll("path")
    .on("mouseout",handleMouseOut)
    .on("click",handleClick);
 
+   //airports
   var g1 = map_svg.append("g");
-  
-  g1.selectAll("path")
+    g1.selectAll("path")
    .data(airports_json.features)
    .enter()
    .append("path")
@@ -35,6 +34,8 @@ g.selectAll("path")
           var coords = d3.mouse(this);
           
       });
+
+      //interaction
 
     function handleMouseOver(d, i) { 
       
