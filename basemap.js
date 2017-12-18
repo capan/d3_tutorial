@@ -1,11 +1,16 @@
 var viewHeight = window.innerHeight;
 var viewWidth = window.innerWidth;
+var il;
+var points;
 
 var geoMercator = d3.geoMercator().scale(5500)
   .center( [28.739557, 39.871648] )
   .translate([300,300]);
 
-var map_svg = d3.select("body").append("svg").attr("width",viewWidth).attr("height",viewHeight);
+var map_svg = d3.select("body")
+.append("svg")
+.attr("width",viewWidth)
+.attr("height",viewHeight);
 
 var g = map_svg.append("g");
 
@@ -32,6 +37,7 @@ g.selectAll("path")
    .attr("d",geoPath)
    .on("click", function() {
           var coords = d3.mouse(this);
+          console.log(coords);
           
       });
 
@@ -49,16 +55,21 @@ g.selectAll("path")
                     .style("fill", "#555")
                     .style("font-family", "Arial")
                     .style("font-size", 50);
+
+                    il = d.properties.name;
               
             }
 
           function handleMouseOut(d,i){
             d3.select(this).attr("fill","black");
-            myTransition();
+           
           }
 
           function handleClick(d,i){
             var coords = d3.mouse(this);
             document.getElementById("il").innerHTML = d.properties.name;
+            myTransition();
+            circle.style("opacity", 1).style("stroke", "gray")
+            .style("fill","red");
 
           }
