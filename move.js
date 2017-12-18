@@ -12,14 +12,19 @@ var pathData = lineGenerator(points);
 var g2 = map_svg.append("g").attr("id","fPath");
 //appending created flight path to variable 
 var path = g2.append("path").data([points]).attr("d", d3.line());
+<<<<<<< HEAD
 
 //flight path
+=======
+  
+>>>>>>> 97dc17f9916dfc5a2b0d4892cee3bfa512ed9f5b
 g2.selectAll('path')
   .data(points)
   .attr('d', pathData)
   .attr("stroke", "transparent")
   .attr("fill","transparent");
 
+<<<<<<< HEAD
 // Also draw points for reference
 // d3.select('svg1')
 //   .selectAll('circle')
@@ -34,6 +39,8 @@ g2.selectAll('path')
 //   })
 //   .attr('r', 10);
 
+=======
+>>>>>>> 97dc17f9916dfc5a2b0d4892cee3bfa512ed9f5b
   var tr_bl = true;
   
         var circle = map_svg.append("circle")
@@ -43,11 +50,14 @@ g2.selectAll('path')
               // .style("fill","red")
               .style("opacity", 0);
 
+
       function myTransition() {
       if (tr_bl){
       circle.transition()
       .duration(10000)
       .attrTween("transform", translateAlong(path.node()));
+
+      
       } 
       else {
         circle.transition();

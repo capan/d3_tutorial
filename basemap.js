@@ -6,7 +6,9 @@ var points;
 var geoMercator = d3.geoMercator().scale(5500)
   .center( [28.739557, 39.871648] )
   .translate([300,300]);
+  
 
+<<<<<<< HEAD
 var map_svg = d3.select("body")
 .append("svg")
 .attr("width",viewWidth)
@@ -14,8 +16,13 @@ var map_svg = d3.select("body")
 
 var g = map_svg.append("g");
 
+=======
+var map_svg = d3.select("body").append("svg").attr("width",viewWidth).attr("height",viewHeight);
+>>>>>>> 97dc17f9916dfc5a2b0d4892cee3bfa512ed9f5b
 var geoPath = d3.geoPath().projection(geoMercator);
 
+//regions
+var g = map_svg.append("g");
 g.selectAll("path")
    .data(tr_geojson.features)
    .enter()
@@ -27,9 +34,9 @@ g.selectAll("path")
    .on("mouseout",handleMouseOut)
    .on("click",handleClick);
 
+   //airports
   var g1 = map_svg.append("g");
-  
-  g1.selectAll("path")
+    g1.selectAll("path")
    .data(airports_json.features)
    .enter()
    .append("path")
@@ -41,13 +48,34 @@ g.selectAll("path")
           
       });
 
-    function handleMouseOver(d, i) {  
-      var coords = d3.mouse(this);
-            d3.select(this).
-            attr(
-               "fill", "orange"
-            );
+      //interaction
 
+    function handleMouseOver(d, i) { 
+      
+      if(d.properties.name == "Tekirdağ"){
+        d3.select(this).transition().
+        style(
+           "fill", "red"
+        );
+        myTransition();
+
+      } else if(d.properties.name == "Adana"){
+        
+        d3.select(this).transition().
+        style(
+           "fill", "red"
+        );
+        myTransition();
+      }
+      else {
+        var coords = d3.mouse(this);
+        d3.select(this).transition().
+        style(
+           "fill", "orange"
+        );
+      }
+
+<<<<<<< HEAD
             d3.select(this)
             .append("svg:title")
             .text(function(d){return d.properties.name})
@@ -63,6 +91,21 @@ g.selectAll("path")
           function handleMouseOut(d,i){
             d3.select(this).attr("fill","black");
            
+=======
+      d3.select(this)
+      .append("svg:title")
+      .text(function(d){return d.properties.name})
+              .style("text-anchor", "middle")
+              .style("fill", "#555")
+              .style("font-family", "Arial")
+              .style("font-size", 50);
+        
+            }
+
+          function handleMouseOut(d,i){
+            d3.select(this).transition().style("fill","black");
+            
+>>>>>>> 97dc17f9916dfc5a2b0d4892cee3bfa512ed9f5b
           }
 
           function handleClick(d,i){
