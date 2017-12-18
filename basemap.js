@@ -8,7 +8,6 @@ var geoMercator = d3.geoMercator().scale(5500)
   .translate([300,300]);
   
 
-<<<<<<< HEAD
 var map_svg = d3.select("body")
 .append("svg")
 .attr("width",viewWidth)
@@ -16,9 +15,6 @@ var map_svg = d3.select("body")
 
 var g = map_svg.append("g");
 
-=======
-var map_svg = d3.select("body").append("svg").attr("width",viewWidth).attr("height",viewHeight);
->>>>>>> 97dc17f9916dfc5a2b0d4892cee3bfa512ed9f5b
 var geoPath = d3.geoPath().projection(geoMercator);
 
 //regions
