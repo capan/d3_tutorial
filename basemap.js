@@ -71,7 +71,6 @@ g.selectAll("path")
         );
       }
 
-<<<<<<< HEAD
             d3.select(this)
             .append("svg:title")
             .text(function(d){return d.properties.name})
@@ -87,21 +86,6 @@ g.selectAll("path")
           function handleMouseOut(d,i){
             d3.select(this).attr("fill","black");
            
-=======
-      d3.select(this)
-      .append("svg:title")
-      .text(function(d){return d.properties.name})
-              .style("text-anchor", "middle")
-              .style("fill", "#555")
-              .style("font-family", "Arial")
-              .style("font-size", 50);
-        
-            }
-
-          function handleMouseOut(d,i){
-            d3.select(this).transition().style("fill","black");
-            
->>>>>>> 97dc17f9916dfc5a2b0d4892cee3bfa512ed9f5b
           }
 
           function handleClick(d,i){
