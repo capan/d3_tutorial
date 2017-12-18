@@ -52,8 +52,8 @@ function handleMouseOver(d, i) {
       style(
       "fill", "red"
       );
-
-
+    points = [[221, 138], [477, 311], [941, 651]];
+    myTransition(points);
 
   } else if (d.properties.name == "Adana") {
 
@@ -62,11 +62,8 @@ function handleMouseOver(d, i) {
       "fill", "red"
       );
     il = d.properties.name;
-    if (il = "Adana") {
-      points = [[941, 651], [477, 311], [221, 138]];
-    } else if (il = "Tekirdağ") {
-      points = [[221, 138], [477, 311], [941, 651]];
-    };
+    points = [[941, 651], [477, 311], [221, 138]];
+
     myTransition(points);
   }
   else {
