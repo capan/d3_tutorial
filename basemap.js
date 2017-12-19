@@ -46,7 +46,7 @@ g1.selectAll("path")
 
 //interaction
 function handleMouseOver(d, i) {
-
+  console.log(d);
   if (d.properties.name == "Tekirdağ") {
     d3.select(this).transition().
       style(
