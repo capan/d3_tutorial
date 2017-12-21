@@ -85,7 +85,11 @@ function handleMouseOver(d, i) {
 
 function handleMouseOut(d, i) {
   d3.select(this).transition().style("fill", "black");
-  d3.select("#fp").transition().remove();
+  d3.select("#fp")
+  .transition()
+  .duration(500)
+  .attrTween("transform",translateAlong())
+  .remove();
 
 }
 
