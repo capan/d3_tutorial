@@ -46,7 +46,9 @@ g1.selectAll("path")
 
 //interaction
 function handleMouseOver(d, i) {
-  console.log(d);
+
+  isAirportInCity(d.properties.name);
+
   if (d.properties.name == "Tekirdağ") {
     d3.select(this).transition().
       style(
@@ -96,4 +98,16 @@ function handleMouseOut(d, i) {
 function handleClick(d, i) {
   var coords = d3.mouse(this);
   document.getElementById("il").innerHTML = d.properties.name;
+}
+
+
+function isAirportInCity(city){
+
+  airports_json.features.forEach(function(element) {
+      var konum = element.properties.is_in;
+      console.log(adet);
+      if(konum && konum.indexOf(city) > -1 ){
+        console.log(konum,city);
+      }    
+  });
 }
