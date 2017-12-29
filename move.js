@@ -53,7 +53,8 @@ function translateAlong(co,path) {
       } else {
         aci = aci - 90;
       }
-      return "translate(" + (p.x) + "," + (p.y) + ") scale(1) rotate("+ aci+")";
+             
+      return "translate(" + (p.x) + "," + (p.y) + ") scale("+Math.sin(Math.PI*t)+") rotate("+ aci+")";
 
     };
   };
@@ -61,16 +62,3 @@ function translateAlong(co,path) {
 
 
 
-// function rotateFunction(co) {
-//       [a1, b1] = co[0];
-//       [a2, b2] = co[1];
-//       aci = Math.atan((b2 - b1) / (a2 - a1));
-//       aci = aci * 180 / Math.PI;
-//       if (a2 > a1) {
-//         aci = aci + 90;
-//       } else {
-//         aci = aci - 90;
-//       }
-//       return "translate(" + 0 + "," + 0 + ") scale(" + 0.1 + ") rotate("+ aci+")";
-// }
-//324.53012783259993

@@ -87,11 +87,7 @@ function handleMouseOver(d, i) {
 
 function handleMouseOut(d, i) {
   d3.select(this).transition().style("fill", "black");
-  d3.select("#fp")
-  .transition()
-  .duration(500)
-  .attrTween("transform",translateAlong())
-  .remove();
+  d3.select("#fp").remove();
 
 }
 
@@ -105,7 +101,7 @@ function isAirportInCity(city){
 
   airports_json.features.forEach(function(element) {
       var konum = element.properties.is_in;
-      console.log(adet);
+      console.log(konum);
       if(konum && konum.indexOf(city) > -1 ){
         console.log(konum,city);
       }    
