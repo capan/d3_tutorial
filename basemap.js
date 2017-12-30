@@ -10,6 +10,7 @@ var geoMercator = d3.geoMercator().scale(5500)
 
 var map_svg = d3.select("body")
   .append("svg")
+  .attr("id","map")
   .attr("width", viewWidth)
   .attr("height", viewHeight);
 
@@ -40,7 +41,7 @@ g1.selectAll("path")
   .attr("d", geoPath)
   .on("click", function () {
     var coords = d3.mouse(this);
-    console.log(coords);
+    //console.log(coords);
 
   });
 
@@ -75,15 +76,30 @@ function handleMouseOver(d, i) {
       "fill", "orange"
       );
   }
-
+  //on mouse over title(city name)
   d3.select(this)
     .append("svg:title")
     .text(function (d) { return d.properties.name })
     .style("text-anchor", "middle")
-    .style("fill", "#555")
+    .style("fill", "#111")
     .style("font-family", "Arial")
     .style("font-size", 50);
 }
+
+// map_svg.selectAll(".map-label")
+// 			   .data(tr_geojson.features)
+// 			   .enter()
+// 			   .append("text")
+// 			   .classed("bar-label",true)
+// 			   .attr("x",function(d,i){
+//             return 100;
+// 			   })
+// 			   .attr("y",function(d,i){
+//           return 100;
+// 				})
+// 			   .text(function(d,i){
+// 					return d.properties.name;
+// 			   })
 
 function handleMouseOut(d, i) {
   d3.select(this).transition().style("fill", "black");
@@ -98,10 +114,9 @@ function handleClick(d, i) {
 
 
 function isAirportInCity(city){
-
   airports_json.features.forEach(function(element) {
       var konum = element.properties.is_in;
-      console.log(konum);
+      //console.log(konum);
       if(konum && konum.indexOf(city) > -1 ){
         console.log(konum,city);
       }    
