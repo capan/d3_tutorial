@@ -6,67 +6,57 @@ var points;
 var geoMercator = d3.geoMercator().scale(5500)
   .center([28.739557, 39.871648])
   .translate([300, 300]);
-
-
 var map_svg = d3.select("body")
   .append("svg")
-  .attr("id","map")
+  .attr("id", "map")
   .attr("width", viewWidth)
   .attr("height", viewHeight);
-
-var g = map_svg.append("g");
-
 var geoPath = d3.geoPath().projection(geoMercator);
-
-//regions
+// drawing regions
 var g = map_svg.append("g");
 g.selectAll("path")
   .data(tr_geojson.features)
   .enter()
   .append("path")
   .attr("d", geoPath)
-  .attr("stroke-width", "1")
-  .attr("stroke", "white")
+  .classed("region-st", true)
   .on("mouseover", handleMouseOver)
   .on("mouseout", handleMouseOut)
   .on("click", handleClick);
-
-//airports
+// drawing airports
 var g1 = map_svg.append("g");
 g1.selectAll("path")
   .data(airports_json.features)
   .enter()
   .append("path")
-  .attr("fill", "#ff0000")
   .attr("d", geoPath)
+  .classed("airport-st", true)
   .on("click", function () {
     var coords = d3.mouse(this);
-    //console.log(coords);
 
+    console.log("mouse koordinatları :",coords);
   });
 
 //interaction
 function handleMouseOver(d, i) {
 
-  isAirportInCity(d.properties.name);
+ APCentroid(d.properties.name); 
+  
 
   if (d.properties.name == "Tekirdağ") {
     d3.select(this).transition().
       style(
       "fill", "red"
       );
-    points = [[221, 138],[941, 651]];
+    points = [[221, 138], [941, 651]];
     myTransition(points);
-
   } else if (d.properties.name == "Adana") {
-
     d3.select(this).transition().
       style(
       "fill", "red"
       );
     il = d.properties.name;
     points = [[941, 651], [221, 138]];
-
     myTransition(points);
   }
   else {
@@ -76,7 +66,7 @@ function handleMouseOver(d, i) {
       "fill", "orange"
       );
   }
-  //on mouse over title(city name)
+
   d3.select(this)
     .append("svg:title")
     .text(function (d) { return d.properties.name })
@@ -85,21 +75,6 @@ function handleMouseOver(d, i) {
     .style("font-family", "Arial")
     .style("font-size", 50);
 }
-
-// map_svg.selectAll(".map-label")
-// 			   .data(tr_geojson.features)
-// 			   .enter()
-// 			   .append("text")
-// 			   .classed("bar-label",true)
-// 			   .attr("x",function(d,i){
-//             return 100;
-// 			   })
-// 			   .attr("y",function(d,i){
-//           return 100;
-// 				})
-// 			   .text(function(d,i){
-// 					return d.properties.name;
-// 			   })
 
 function handleMouseOut(d, i) {
   d3.select(this).transition().style("fill", "black");
@@ -113,12 +88,22 @@ function handleClick(d, i) {
 }
 
 
-function isAirportInCity(city){
-  airports_json.features.forEach(function(element) {
-      var konum = element.properties.is_in;
-      //console.log(konum);
-      if(konum && konum.indexOf(city) > -1 ){
-        console.log(konum,city);
-      }    
+function isAirportInCity(city) {
+  airports_json.features.forEach(function (element) {
+    var konum = element.properties.is_in;
+    //console.log(konum);
+    if (konum && konum.indexOf(city) > -1) {
+      console.log(konum, city);
+    }
   });
+}
+
+function APCentroid(city) {
+  airports_json.features.forEach(function (element) {
+     //all coordinates assigned to an array
+      var coordArray = element.geometry.coordinates[0];
+     // there will a for loop in here to calculate centroids of airports
+      console.log(coordArray);
+  }
+  )
 }

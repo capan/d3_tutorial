@@ -6,12 +6,13 @@ body,html{
 	text-align: center;
 }
 #map{
-    background-color: brown;
+    background-color: white;
     border: 1px solid #CCC;
 }
-.map-label{
-	text-anchor: end;
-	fill: black;
-	font-size: 20px;
-	background: #CCC;
+.region-st{
+	stroke-width: 1;
+	stroke: white;
 }
+.airport-st{
+	fill: #ff0000;
+}	
