@@ -2,6 +2,8 @@ var viewHeight = window.innerHeight;
 var viewWidth = window.innerWidth;
 var il;
 var points;
+var cx =[];
+var cy =[];
 
 var geoMercator = d3.geoMercator().scale(5500)
   .center([28.739557, 39.871648])
@@ -41,8 +43,7 @@ g1.selectAll("path")
 function handleMouseOver(d, i) {
 
  APCentroid(d.properties.name); 
-  
-
+ 
   if (d.properties.name == "Tekirdağ") {
     d3.select(this).transition().
       style(
@@ -101,9 +102,27 @@ function isAirportInCity(city) {
 function APCentroid(city) {
   airports_json.features.forEach(function (element) {
      //all coordinates assigned to an array
-      var coordArray = element.geometry.coordinates[0];
-     // there will a for loop in here to calculate centroids of airports
-      console.log(coordArray);
+     var coordArray = element.geometry.coordinates[0];
+     clistLength = coordArray.length;
+     for (i=0;i<clistLength;i++){
+      var c = coordArray[i];
+      cx[i] = c[0];
+      cy[i] = c[1];
+     }
+     var sumx = arraySum(cx);
+     var sumy = arraySum(cy);
+     meanx = sumx/clistLength;
+     meany = sumy/clistLength;
+
+      // there will a for loop in here to calculate centroids of airports
+      console.log("Mean Longitude:  ",meanx);
+      console.log("Mean Latitude : ",meany);
+      
   }
   )
+}
+
+function arraySum(someArray){
+  sum = someArray.reduce((a, b) => a + b, 0);
+  return sum;
 }
