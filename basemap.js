@@ -2,8 +2,8 @@ var viewHeight = window.innerHeight;
 var viewWidth = window.innerWidth;
 var il;
 var points;
-
-
+var airportPoints = []; var j = 0;
+// d3.select(window).on("load", APCentroid(true));
 var geoMercator = d3.geoMercator().scale(5500)
   .center([28.739557, 39.871648])
   .translate([300, 300]);
@@ -34,15 +34,11 @@ g1.selectAll("path")
   .classed("airport-st", true)
   .on("click", function () {
     var coords = d3.mouse(this);
-
     console.log("mouse koordinatları :", coords);
   });
-
+APMeanCoord();
 //interaction
 function handleMouseOver(d, i) {
-
-  APCentroid(d.properties.name);
-
   if (d.properties.name == "Tekirdağ") {
     d3.select(this).transition().
       style(
@@ -98,13 +94,13 @@ function isAirportInCity(city) {
   });
 }
 
-function APCentroid(city) {
+function APMeanCoord() {
   airports_json.features.forEach(function (element) {
     //all coordinates assigned to an array
     var cx = [];
     var cy = [];
     var coordArray = element.geometry.coordinates[0];
-    var airportName = element.properties.Name;
+    var airportName = element.properties.is_in;
     clistLength = coordArray.length;
     for (i = 0; i < clistLength; i++) {
       var c = coordArray[i];
@@ -115,12 +111,13 @@ function APCentroid(city) {
     var sumy = arraySum(cy);
     var meanx = sumx / clistLength;
     var meany = sumy / clistLength;
-
-    // there will a for loop in here to calculate centroids of airports
-    console.log("Airport Name : ",airportName,"Mean Longitude:  ", meanx,"Mean Latitude : ",meany);
- }
+    airportPoints[j] = [airportName, meanx, meany];
+    j++;
+  }
   )
+  console.log(airportPoints);
 }
+
 
 function arraySum(someArray) {
   sum = someArray.reduce((a, b) => a + b, 0);
