@@ -36,32 +36,34 @@ g1.selectAll("path")
     var coords = d3.mouse(this);
     console.log("mouse koordinatları :", coords);
   });
-APMeanCoord();
+
 //interaction
 function handleMouseOver(d, i) {
-  if (d.properties.name == "Tekirdağ") {
-    d3.select(this).transition().
-      style(
-      "fill", "red"
-      );
-    points = [[221, 138], [941, 651]];
-    myTransition(points);
-  } else if (d.properties.name == "Adana") {
-    d3.select(this).transition().
-      style(
-      "fill", "red"
-      );
-    il = d.properties.name;
-    points = [[941, 651], [221, 138]];
-    myTransition(points);
-  }
-  else {
-    var coords = d3.mouse(this);
-    d3.select(this).transition().
-      style(
-      "fill", "orange"
-      );
-  }
+  // if (d.properties.name == "Tekirdağ") {
+  //   d3.select(this).transition().
+  //     style(
+  //     "fill", "red"
+  //     );
+  //   points = [[221, 138], [941, 651]];
+  //   myTransition(points);
+  // } else if (d.properties.name == "Adana") {
+  //   d3.select(this).transition().
+  //     style(
+  //     "fill", "red"
+  //     );
+  //   il = d.properties.name;
+  //   points = [[941, 651], [221, 138]];
+  //   myTransition(points);
+  // }
+  // else {
+  //   var coords = d3.mouse(this);
+  //   d3.select(this).transition().
+  //     style(
+  //     "fill", "orange"
+  //     );
+  // }
+  var dynamicFlightRoute = APMeanCoord(d.properties.name);
+
 
   d3.select(this)
     .append("svg:title")
@@ -94,7 +96,10 @@ function isAirportInCity(city) {
   });
 }
 
-function APMeanCoord() {
+function APMeanCoord(name) {
+  if (airports_json.features.is_in == name){
+
+  }
   airports_json.features.forEach(function (element) {
     //all coordinates assigned to an array
     var cx = [];
