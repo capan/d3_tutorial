@@ -2,7 +2,7 @@ var viewHeight = window.innerHeight;
 var viewWidth = window.innerWidth;
 var il;
 var points;
-var airportPoints = []; var j = 0; 
+var airportPoints = []; var j = 0; var newArray= [];
 // d3.select(window).on("load", APCentroid(true));
 var geoMercator = d3.geoMercator().scale(5500)
   .center([28.739557, 39.871648])
@@ -39,6 +39,8 @@ g1.selectAll("path")
 
 //interaction
 function handleMouseOver(d, i) {
+  var dynamicFlightRoute = APMeanCoord(d.properties.name);
+  // console.log(dynamicFlightRoute);
   // if (d.properties.name == "Tekirdağ") {
   //   d3.select(this).transition().
   //     style(
@@ -62,7 +64,7 @@ function handleMouseOver(d, i) {
   //     "fill", "orange"
   //     );
   // }
-  var dynamicFlightRoute = APMeanCoord(d.properties.name);
+
 
 
 
@@ -98,40 +100,47 @@ function APMeanCoord(name) {
   var i = 0; destinationArray = [];
   route_json.routes.forEach(function (element) {
     if (element.Origin == name) {
-      // console.log(element.Destination);
       destinationArray[i] = element.Destination;
       i++;
     }
-  })
-
-  var deneme = airports_json.features.filter(filterByName);
-  // airports_json.features.forEach(function (element) {
-    console.log(deneme);
-  //   //all coordinates assigned to an array
-  //   var cx = [];
-  //   var cy = [];
-  //   var coordArray = element.geometry.coordinates[0];
-  //   var airportName = element.properties.is_in;
-  //   clistLength = coordArray.length;
-  //   for (i = 0; i < clistLength; i++) {
-  //     var c = coordArray[i];
-  //     cx[i] = c[0];
-  //     cy[i] = c[1];
-  //   }
-  //   var sumx = arraySum(cx);
-  //   var sumy = arraySum(cy);
-  //   var meanx = sumx / clistLength;
-  //   var meany = sumy / clistLength;
-  //   airportPoints[j] = [airportName, meanx, meany];
-  //   j++;
-  // }
-  // )
+  }
+  )
+  // var destinationPorts = airports_json.features.filter(is_in => destinationArray.includes(is_in));
+  var destinationPorts = filterByName(destinationArray);
+  console.log(destinationPorts);
+  airports_json.features.forEach(function (element) {
+    //all coordinates assigned to an array
+    var cx = [];
+    var cy = [];
+    var coordArray = element.geometry.coordinates[0];
+    var airportName = element.properties.is_in;
+    clistLength = coordArray.length;
+    for (i = 0; i < clistLength; i++) {
+      var c = coordArray[i];
+      cx[i] = c[0];
+      cy[i] = c[1];
+    }
+    var sumx = arraySum(cx);
+    var sumy = arraySum(cy);
+    var meanx = sumx / clistLength;
+    var meany = sumy / clistLength;
+    airportPoints[j] = [airportName, meanx, meany];
+    j++;
+  }
+  )
+  return destinationArray;
 }
 
-function filterByName(){
-  
+function filterByName(destArray) {
+  for (i = 0; i <= destArray.length; i++) {
+      newArray[i] = airports_json.features.find(function (element) {
+      return element.properties.is_in === destArray[i];
+    }
+    );
+  }
 }
 
+//finding summation of an array
 function arraySum(someArray) {
   sum = someArray.reduce((a, b) => a + b, 0);
   return sum;
