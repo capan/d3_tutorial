@@ -2,7 +2,8 @@ var viewHeight = window.innerHeight;
 var viewWidth = window.innerWidth;
 var il;
 var points;
-var airportPoints = []; var j = 0; var newArray= [];
+var airportPoints = []; var j = 0; var newArray = [];
+var dynamicFlightRoute = []; var destinationArray = [];
 // d3.select(window).on("load", APCentroid(true));
 var geoMercator = d3.geoMercator().scale(5500)
   .center([28.739557, 39.871648])
@@ -36,38 +37,38 @@ g1.selectAll("path")
     var coords = d3.mouse(this);
     console.log("mouse koordinatları :", coords);
   });
-
 //interaction
 function handleMouseOver(d, i) {
-  var dynamicFlightRoute = APMeanCoord(d.properties.name);
-  // console.log(dynamicFlightRoute);
-  // if (d.properties.name == "Tekirdağ") {
-  //   d3.select(this).transition().
-  //     style(
-  //     "fill", "red"
-  //     );
-  //   points = [[221, 138], [941, 651]];
-  //   myTransition(points);
-  // } else if (d.properties.name == "Adana") {
-  //   d3.select(this).transition().
-  //     style(
-  //     "fill", "red"
-  //     );
-  //   il = d.properties.name;
-  //   points = [[941, 651], [221, 138]];
-  //   myTransition(points);
-  // }
-  // else {
-  //   var coords = d3.mouse(this);
-  //   d3.select(this).transition().
-  //     style(
-  //     "fill", "orange"
-  //     );
-  // }
+  var airportObjects = [];
+  console.log(dynamicFlightRoute, airportObjects, destinationArray);
+  // dynamicFlightRoute.length = 0; airportObjects.length = 0; destinationArray.length = 0;
+  dynamicFlightRoute = destinationFunction(d.properties.name);
+  airportObjects = APMeanCoord(dynamicFlightRoute);
+  console.log(airportObjects);
 
-
-
-
+  if (d.properties.name == "Tekirdağ") {
+    d3.select(this).transition().
+      style(
+      "fill", "red"
+      );
+    points = [[221, 138], [941, 651]];
+    myTransition(points);
+  } else if (d.properties.name == "Adana") {
+    d3.select(this).transition().
+      style(
+      "fill", "red"
+      );
+    il = d.properties.name;
+    points = [[941, 651], [221, 138]];
+    myTransition(points);
+  }
+  else {
+    var coords = d3.mouse(this);
+    d3.select(this).transition().
+      style(
+      "fill", "orange"
+      );
+  }
   //city label on mouse over
   d3.select(this)
     .append("svg:title")
@@ -75,6 +76,7 @@ function handleMouseOver(d, i) {
 }
 
 function handleMouseOut(d, i) {
+  dynamicFlightRoute = []; airportObjects = [];
   d3.select(this).transition().style("fill", "black");
   d3.select("#fp").remove();
 
@@ -85,30 +87,28 @@ function handleClick(d, i) {
   document.getElementById("il").innerHTML = d.properties.name;
 }
 
-
-// function isAirportInCity(city) {
-//   airports_json.features.forEach(function (element) {
-//     var konum = element.properties.is_in;
-//     //console.log(konum);
-//     if (konum && konum.indexOf(city) > -1) {
-//       console.log(konum, city);
-//     }
-//   });
-// }
-
-function APMeanCoord(name) {
-  var i = 0; destinationArray = [];
+function destinationFunction(name) {
+  var i = 0;
   route_json.routes.forEach(function (element) {
     if (element.Origin == name) {
-      destinationArray[i] = element.Destination;
+      destinationArray.push(element.Destination) ;
       i++;
     }
   }
   )
-  // var destinationPorts = airports_json.features.filter(is_in => destinationArray.includes(is_in));
-  var destinationPorts = filterByName(destinationArray);
-  console.log(destinationPorts);
-  airports_json.features.forEach(function (element) {
+  return destinationArray;
+}
+
+function APMeanCoord(someArray) {
+  airportPoints.length = 0;
+  var data = filterByName(someArray);
+  // console.log(destinationPorts);
+  var destinationPorts = data.filter(function (element) {
+    return element !== undefined;
+  });
+
+  destinationPorts.forEach(function (element) {
+
     //all coordinates assigned to an array
     var cx = [];
     var cy = [];
@@ -128,16 +128,23 @@ function APMeanCoord(name) {
     j++;
   }
   )
-  return destinationArray;
+  return airportPoints;
+
 }
 
+
 function filterByName(destArray) {
-  for (i = 0; i <= destArray.length; i++) {
-      newArray[i] = airports_json.features.find(function (element) {
-      return element.properties.is_in === destArray[i];
+  for (i = 0; i <= destArray.length-1; i++) {
+    newArray[i] = airports_json.features.find(function (element) {
+      if (element.properties.is_in === destArray[i]) {
+        console.log('v_v Match :', element.properties.is_in);
+        return element;
+      }
+      console.log(')V_v( No Match :', element.properties.is_in);
     }
     );
   }
+  return newArray;
 }
 
 //finding summation of an array
