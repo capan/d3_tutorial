@@ -1,7 +1,7 @@
 
 
 
-function myTransition(x1) {
+function myTransition(destPoi,originPoi) {
   var tr_bl = true;
   if (tr_bl) {
     var plane = map_svg.append("path")
@@ -11,28 +11,32 @@ function myTransition(x1) {
     .style("fill", "transparent"); 
     var lineGenerator = d3.line().curve(d3.curveCatmullRom);
     //creating flight path data with line generator
-    var pathData = lineGenerator(x1);
-    //appending new group g2 with id fPath 
+    var pathData = lineGenerator(destPoi);
+    //appending new group g2 with id fp 
     var g2 = map_svg.append("g").attr("id", "fp");
     //appending created flight path to variable 
-    var path = g2.append("path").data([x1]).attr("d", d3.line());
+    var path = g2.append("path").data([destPoi]).attr("d", d3.line());
     //flight path
     g2.selectAll('path')
-      .data(x1)
+      .data(destPoi)
+      // .datum({type: "LineString", coordinates: [x1]})
       .attr('d', pathData)
       .attr("stroke", "blue")
       .attr("fill", "transparent"); 
+
       plane.style("fill","grey");
+
       var route = g2.append("path")
-               .datum({type: "LineString", coordinates: [[28.386978,41.105418], [38.163765,38.219892]]})
+               .datum({type: "LineString", coordinates: [destPoi]})
                .attr("class", "route")
                .attr("d", geoPath)
                .attr("stroke", "blue")
                .attr("fill", "transparent");
+
       //adding transition to plane
     plane.transition()
       .duration(5000)
-      .attrTween("transform", translateAlong(x1,path.node()))
+      .attrTween("transform", translateAlong(destPoi,path.node()))
       .remove();
   }
   else {
@@ -57,6 +61,3 @@ function translateAlong(co,path) {
     };
   };
 }
-
-
-

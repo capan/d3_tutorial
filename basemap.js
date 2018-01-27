@@ -38,21 +38,27 @@ g1.selectAll("path")
 //interaction
 function handleMouseOver(d, i) {
   var dynamicFlightRoute = [];
-  var airportObjects = [];
+  var destAirportObjects = [];
+
   dynamicFlightRoute = destinationFunction(d.properties.name);
-  airportObjects = APMeanCoord(dynamicFlightRoute);
-  // console.log(airportObjects);
-  if (airportObjects.length > 0) {
-    var n = airportObjects.length;
-    var points = [];
+  // console.log(dynamicFlightRoute);
+  destAirportObjects = APMeanCoord(dynamicFlightRoute);
+  // console.log(destAirportObjects);
+  var OriginAirport = OrMeanCoord(d.properties.name);
+  // console.log(OriginAirport);
+  if (destAirportObjects.length > 0) {
+    var n = destAirportObjects.length;
+    var fp = [];
     d3.select(this).transition().
       style(
       "fill", "red"
       );
-      for(i = 0;i<=n;i++){
-        points[i] = 
-      }
+    fp = [];
 
+    for (i = 0; i <= n - 1; i++) {
+      fp[i] = [destAirportObjects[i][1], destAirportObjects[i][2]];
+    }
+    myTransition(fp,OriginAirport);
     // if (d.properties.name == "Tekirdağ") {
     //   d3.select(this).transition().
     //     style(
@@ -91,7 +97,7 @@ function handleMouseOver(d, i) {
 }
 
 function handleMouseOut(d, i) {
-  dynamicFlightRoute = []; airportObjects = [];
+  dynamicFlightRoute = []; destAirportObjects = [];
   d3.select(this).transition().style("fill", "black");
   d3.select("#fp").remove();
 
@@ -104,11 +110,9 @@ function handleClick(d, i) {
 
 function destinationFunction(name) {
   var destinationArray = [];
-  var i = 0;
   route_json.routes.forEach(function (element) {
     if (element.Origin == name) {
       destinationArray.push(element.Destination);
-      i++;
     }
   }
   )
@@ -117,8 +121,7 @@ function destinationFunction(name) {
 
 function APMeanCoord(someArray) {
   var airportPoints = [];
-  airportPoints.length = 0;
-  var data = filterByName(someArray);
+  var data = DestFilterByName(someArray);
   var destinationPorts = data.filter(function (element) {
     return element !== undefined;
   });
@@ -144,11 +147,50 @@ function APMeanCoord(someArray) {
   }
   )
   return airportPoints;
+}
+
+function OrMeanCoord(OriginObject) {
+  var cx = [];
+  var cy = [];
+  var data = OriginFilterByName(OriginObject);
+  if (data) {
+    var coordArray = data.geometry.coordinates[0];
+    var airportName = data.properties.Name;
+    clistLength = coordArray.length;
+    for (i = 0; i < clistLength; i++) {
+      var c = coordArray[i];
+      cx[i] = c[0];
+      cy[i] = c[1];
+    }
+    var sumx = arraySum(cx);
+    var sumy = arraySum(cy);
+    var meanx = sumx / clistLength;
+    var meany = sumy / clistLength;
+    airportOrigin = [airportName, meanx, meany];
+    return airportOrigin;
+  }
+  else {
+
+  }
 
 }
 
+function OriginFilterByName(originArray) {
+  var newArray;
+  newArray = airports_json.features.find(function (element) {
+    if (element.properties.is_in === originArray) {
+      return element;
+    }
+  });
+  if (newArray) {
+    return newArray;
+  } else {
 
-function filterByName(destArray) {
+  }
+
+}
+
+function DestFilterByName(destArray) {
   var newArray = [];
   for (i = 0; i <= destArray.length - 1; i++) {
     newArray[i] = airports_json.features.find(function (element) {
@@ -158,6 +200,7 @@ function filterByName(destArray) {
     }
     );
   }
+  // console.log(newArray);
   return newArray;
 }
 //finding summation of an array

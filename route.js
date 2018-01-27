@@ -4,10 +4,10 @@ var route_json = {
             {"Origin":"Adana", "Destination":"İstanbul"},
             {"Origin":"Tekirdağ", "Destination":"Adana"},
             {"Origin":"Ankara", "Destination":"Sivas"},
-            {"Origin":"Antalya", "Destination":"Ankara"},
-            {"Origin":"Antalya", "Destination":"İstanbul"},
+            {"Origin":"Tekirdağ", "Destination":"Ankara"},
+            {"Origin":"Tekirdağ", "Destination":"İstanbul"},
             {"Origin":"Antalya", "Destination":"İzmir"},
-            {}
+            {"Origin":"Antalya", "Destination":"Batman"},
         ]
         
 }
