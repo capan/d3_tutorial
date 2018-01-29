@@ -40,6 +40,7 @@ g1.selectAll("path")
 //interaction
 function handleMouseOver(d, i) {
   var dynamicFlightRoute = APMeanCoord(d.properties.name);
+  console.log(dynamicFlightRoute);
   // console.log(dynamicFlightRoute);
   // if (d.properties.name == "Tekirdağ") {
   //   d3.select(this).transition().
@@ -107,7 +108,6 @@ function APMeanCoord(name) {
   )
   // var destinationPorts = airports_json.features.filter(is_in => destinationArray.includes(is_in));
   var destinationPorts = filterByName(destinationArray);
-  console.log(destinationPorts);
   airports_json.features.forEach(function (element) {
     //all coordinates assigned to an array
     var cx = [];
