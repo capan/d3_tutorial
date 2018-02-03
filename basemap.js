@@ -1,7 +1,7 @@
 var viewHeight = window.innerHeight;
 var viewWidth = window.innerWidth;
 var il;
-var points;
+var points; originPoint =[];
 // d3.select(window).on("load", APCentroid(true));
 var geoMercator = d3.geoMercator().scale(5500)
   .center([28.739557, 39.871648])
@@ -58,7 +58,7 @@ function handleMouseOver(d, i) {
     for (i = 0; i <= n - 1; i++) {
       fp[i] = [destAirportObjects[i][1], destAirportObjects[i][2]];
     }
-    myTransition(fp,OriginAirport);
+    myTransition(fp, OriginAirport);
     // if (d.properties.name == "Tekirdağ") {
     //   d3.select(this).transition().
     //     style(
@@ -82,8 +82,9 @@ function handleMouseOver(d, i) {
     //     "fill", "orange"
     //     );
     // }
-
-  } else {
+  }
+  
+  else {
     d3.select(this).transition().
       style(
       "fill", "orange"
