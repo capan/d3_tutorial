@@ -56,7 +56,7 @@ function myTransition(destPoi, originPoi) {
       plane.transition()
         .duration(5000)
         .attrTween("transform", translateAlong([originPoint, t_dest_poi[i]], path.node()))
-        .remove();
+        .each("end", remove());
     }
   }
   else {
